@@ -19,12 +19,14 @@ namespace NumberDuelApp
         TurnEnum winner;
 
         List<Button> lstbuttons;
+        HashSet<Button> pinkbuttons = new();
         bool gameactive = false;
         int previousnum = 0;
         bool playcomputer = false;
         Color startcolor = Color.MediumSpringGreen;
         Color usedcolor = Color.Gray;
         Color wincolor = Color.Gold;
+        Color setupwincolor = Color.Pink;
 
        
         public frmNumberDuel()
@@ -54,6 +56,9 @@ namespace NumberDuelApp
                 b.Enabled = true;
                 b.BackColor = startcolor;
             });
+            pinkbuttons.Clear();
+
+            HighlightOneAndFinisherMoves();
     
 
             DisplayGameStatus();
@@ -71,6 +76,7 @@ namespace NumberDuelApp
             }
           SwitchTurn();
           DisplayGameStatus();
+          HighlightOneAndFinisherMoves();
 
             if (IsComputerTurn())
             {
@@ -238,6 +244,98 @@ namespace NumberDuelApp
             
         }
 
+        private void HighlightOneAndFinisherMoves()
+        {
+            if (!gameactive)
+            {
+                return;
+            }
+
+            foreach (Button b in lstbuttons.Where(b => b.Enabled))
+            {
+                b.BackColor = pinkbuttons.Contains(b) ? setupwincolor : startcolor;
+            }
+
+            var validMoves = lstbuttons
+                .Where(b => b.Enabled && ValidMove(int.Parse(b.Text)))
+                .ToList();
+
+            if (validMoves.Count != 1)
+            {
+                return;
+            }
+
+            Button forcedMove = validMoves[0];
+            if (int.Parse(forcedMove.Text) != 1)
+            {
+                return;
+            }
+
+            var finishingMoves = GetImmediateFinishingMovesAfterForcedOne(forcedMove);
+            if (finishingMoves.Count > 0)
+            {
+                pinkbuttons.Add(forcedMove);
+                finishingMoves.ForEach(b => pinkbuttons.Add(b));
+
+                foreach (Button b in lstbuttons.Where(b => b.Enabled && pinkbuttons.Contains(b)))
+                {
+                    b.BackColor = setupwincolor;
+                }
+            }
+        }
+
+        private List<Button> GetImmediateFinishingMovesAfterForcedOne(Button forcedOne)
+        {
+            int originalPrevious = previousnum;
+            previousnum = 1;
+            List<Button> finishingMoves = new();
+
+            foreach (Button b in lstbuttons)
+            {
+                if (!b.Enabled || b == forcedOne)
+                {
+                    continue;
+                }
+
+                int candidateNum = int.Parse(b.Text);
+                if (!ValidMove(candidateNum))
+                {
+                    continue;
+                }
+
+                if (EndsGameImmediatelyAfterChoice(b, forcedOne))
+                {
+                    finishingMoves.Add(b);
+                }
+            }
+
+            previousnum = originalPrevious;
+            return finishingMoves;
+        }
+
+        private bool EndsGameImmediatelyAfterChoice(Button selectedMove, Button forcedOne)
+        {
+            int originalPrevious = previousnum;
+            previousnum = int.Parse(selectedMove.Text);
+
+            foreach (Button b in lstbuttons)
+            {
+                if (!b.Enabled || b == forcedOne || b == selectedMove)
+                {
+                    continue;
+                }
+
+                if (ValidMove(int.Parse(b.Text)))
+                {
+                    previousnum = originalPrevious;
+                    return false;
+                }
+            }
+
+            previousnum = originalPrevious;
+            return true;
+        }
+
         private void HandleMove(Button btn)
         {
             int num = int.Parse(btn.Text);
@@ -249,6 +347,7 @@ namespace NumberDuelApp
             previousnum = num;
             lblNumPicked.Text = "Number: " + btn.Text;
             btn.Enabled = false;
+            pinkbuttons.Remove(btn);
             btn.BackColor = usedcolor;
 
             DoTurn();
