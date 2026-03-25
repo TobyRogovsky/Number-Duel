@@ -257,43 +257,66 @@ namespace NumberDuelApp
                 }
             }
 
-            var remainingOptions = lstbuttons
-                .Where(b => b.Enabled)
+            var validMoves = lstbuttons
+                .Where(b => b.Enabled && ValidMove(int.Parse(b.Text)))
                 .ToList();
 
-            if (remainingOptions.Count != 2)
+            if (validMoves.Count != 1)
             {
                 return;
             }
 
-            if (remainingOptions.Any(b => !ValidMove(int.Parse(b.Text))))
+            Button forcedMove = validMoves[0];
+            if (int.Parse(forcedMove.Text) != 1)
             {
                 return;
             }
 
-            Button? oneButton = remainingOptions.FirstOrDefault(b => int.Parse(b.Text) == 1);
-            if (oneButton == null)
+            var finishingMoves = GetImmediateFinishingMovesAfterForcedOne(forcedMove);
+            if (finishingMoves.Count > 0)
             {
-                return;
-            }
-
-            Button otherButton = remainingOptions.First(b => b != oneButton);
-
-            if (EndsGameImmediately(otherButton))
-            {
-                oneButton.BackColor = setupwincolor;
-                otherButton.BackColor = setupwincolor;
+                forcedMove.BackColor = setupwincolor;
+                finishingMoves.ForEach(b => b.BackColor = setupwincolor);
             }
         }
 
-        private bool EndsGameImmediately(Button selectedMove)
+        private List<Button> GetImmediateFinishingMovesAfterForcedOne(Button forcedOne)
+        {
+            int originalPrevious = previousnum;
+            previousnum = 1;
+            List<Button> finishingMoves = new();
+
+            foreach (Button b in lstbuttons)
+            {
+                if (!b.Enabled || b == forcedOne)
+                {
+                    continue;
+                }
+
+                int candidateNum = int.Parse(b.Text);
+                if (!ValidMove(candidateNum))
+                {
+                    continue;
+                }
+
+                if (EndsGameImmediatelyAfterChoice(b, forcedOne))
+                {
+                    finishingMoves.Add(b);
+                }
+            }
+
+            previousnum = originalPrevious;
+            return finishingMoves;
+        }
+
+        private bool EndsGameImmediatelyAfterChoice(Button selectedMove, Button forcedOne)
         {
             int originalPrevious = previousnum;
             previousnum = int.Parse(selectedMove.Text);
 
             foreach (Button b in lstbuttons)
             {
-                if (!b.Enabled || b == selectedMove)
+                if (!b.Enabled || b == forcedOne || b == selectedMove)
                 {
                     continue;
                 }
