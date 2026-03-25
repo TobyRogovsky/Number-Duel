@@ -257,22 +257,27 @@ namespace NumberDuelApp
                 }
             }
 
-            var validMoves = lstbuttons
-                .Where(b => b.Enabled && ValidMove(int.Parse(b.Text)))
+            var remainingOptions = lstbuttons
+                .Where(b => b.Enabled)
                 .ToList();
 
-            if (validMoves.Count != 2)
+            if (remainingOptions.Count != 2)
             {
                 return;
             }
 
-            Button? oneButton = validMoves.FirstOrDefault(b => int.Parse(b.Text) == 1);
+            if (remainingOptions.Any(b => !ValidMove(int.Parse(b.Text))))
+            {
+                return;
+            }
+
+            Button? oneButton = remainingOptions.FirstOrDefault(b => int.Parse(b.Text) == 1);
             if (oneButton == null)
             {
                 return;
             }
 
-            Button otherButton = validMoves.First(b => b != oneButton);
+            Button otherButton = remainingOptions.First(b => b != oneButton);
 
             if (EndsGameImmediately(otherButton))
             {
