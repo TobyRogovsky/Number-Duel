@@ -19,6 +19,7 @@ namespace NumberDuelApp
         TurnEnum winner;
 
         List<Button> lstbuttons;
+        HashSet<Button> pinkbuttons = new();
         bool gameactive = false;
         int previousnum = 0;
         bool playcomputer = false;
@@ -55,6 +56,7 @@ namespace NumberDuelApp
                 b.Enabled = true;
                 b.BackColor = startcolor;
             });
+            pinkbuttons.Clear();
 
             HighlightOneAndFinisherMoves();
     
@@ -249,12 +251,9 @@ namespace NumberDuelApp
                 return;
             }
 
-            foreach (Button b in lstbuttons)
+            foreach (Button b in lstbuttons.Where(b => b.Enabled))
             {
-                if (b.Enabled)
-                {
-                    b.BackColor = startcolor;
-                }
+                b.BackColor = pinkbuttons.Contains(b) ? setupwincolor : startcolor;
             }
 
             var validMoves = lstbuttons
@@ -275,8 +274,13 @@ namespace NumberDuelApp
             var finishingMoves = GetImmediateFinishingMovesAfterForcedOne(forcedMove);
             if (finishingMoves.Count > 0)
             {
-                forcedMove.BackColor = setupwincolor;
-                finishingMoves.ForEach(b => b.BackColor = setupwincolor);
+                pinkbuttons.Add(forcedMove);
+                finishingMoves.ForEach(b => pinkbuttons.Add(b));
+
+                foreach (Button b in lstbuttons.Where(b => b.Enabled && pinkbuttons.Contains(b)))
+                {
+                    b.BackColor = setupwincolor;
+                }
             }
         }
 
@@ -343,6 +347,7 @@ namespace NumberDuelApp
             previousnum = num;
             lblNumPicked.Text = "Number: " + btn.Text;
             btn.Enabled = false;
+            pinkbuttons.Remove(btn);
             btn.BackColor = usedcolor;
 
             DoTurn();
