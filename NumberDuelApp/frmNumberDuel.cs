@@ -25,7 +25,7 @@ namespace NumberDuelApp
         Color startcolor = Color.MediumSpringGreen;
         Color usedcolor = Color.Gray;
         Color wincolor = Color.Gold;
-        Color setupwincolor = Color.HotPink;
+        Color setupwincolor = Color.Pink;
 
        
         public frmNumberDuel()
@@ -56,7 +56,7 @@ namespace NumberDuelApp
                 b.BackColor = startcolor;
             });
 
-            HighlightTwoTurnWinMoves();
+            HighlightOneAndFinisherMoves();
     
 
             DisplayGameStatus();
@@ -74,7 +74,7 @@ namespace NumberDuelApp
             }
           SwitchTurn();
           DisplayGameStatus();
-          HighlightTwoTurnWinMoves();
+          HighlightOneAndFinisherMoves();
 
             if (IsComputerTurn())
             {
@@ -242,7 +242,7 @@ namespace NumberDuelApp
             
         }
 
-        private void HighlightTwoTurnWinMoves()
+        private void HighlightOneAndFinisherMoves()
         {
             if (!gameactive)
             {
@@ -257,85 +257,43 @@ namespace NumberDuelApp
                 }
             }
 
-            foreach (Button firstMove in lstbuttons)
-            {
-                if (!firstMove.Enabled)
-                {
-                    continue;
-                }
-
-                int firstNum = int.Parse(firstMove.Text);
-                if (!ValidMove(firstNum))
-                {
-                    continue;
-                }
-
-                if (CanWinOnTurnAfterNext(firstMove, firstNum))
-                {
-                    firstMove.BackColor = setupwincolor;
-                }
-            }
-        }
-
-        private bool CanWinOnTurnAfterNext(Button firstMove, int firstNum)
-        {
-            int originalPrevious = previousnum;
-            previousnum = firstNum;
-
-            var opponentMoves = lstbuttons
-                .Where(b => b.Enabled && b != firstMove && ValidMove(int.Parse(b.Text)))
+            var validMoves = lstbuttons
+                .Where(b => b.Enabled && ValidMove(int.Parse(b.Text)))
                 .ToList();
 
-            if (opponentMoves.Count == 0)
+            if (validMoves.Count != 2)
             {
-                previousnum = originalPrevious;
-                return false;
+                return;
             }
 
-            foreach (Button opponentMove in opponentMoves)
+            Button? oneButton = validMoves.FirstOrDefault(b => int.Parse(b.Text) == 1);
+            if (oneButton == null)
             {
-                int opponentNum = int.Parse(opponentMove.Text);
-                previousnum = opponentNum;
-
-                foreach (Button myReply in lstbuttons)
-                {
-                    if (!myReply.Enabled || myReply == firstMove || myReply == opponentMove)
-                    {
-                        continue;
-                    }
-
-                    int replyNum = int.Parse(myReply.Text);
-                    if (!ValidMove(replyNum))
-                    {
-                        continue;
-                    }
-
-                    if (LeavesNoValidMoves(myReply, firstMove, opponentMove, replyNum))
-                    {
-                        previousnum = originalPrevious;
-                        return true;
-                    }
-                }
+                return;
             }
 
-            previousnum = originalPrevious;
-            return false;
+            Button otherButton = validMoves.First(b => b != oneButton);
+
+            if (EndsGameImmediately(otherButton))
+            {
+                oneButton.BackColor = setupwincolor;
+                otherButton.BackColor = setupwincolor;
+            }
         }
 
-        private bool LeavesNoValidMoves(Button replyMove, Button firstMove, Button opponentMove, int replyNum)
+        private bool EndsGameImmediately(Button selectedMove)
         {
             int originalPrevious = previousnum;
-            previousnum = replyNum;
+            previousnum = int.Parse(selectedMove.Text);
 
             foreach (Button b in lstbuttons)
             {
-                if (!b.Enabled || b == firstMove || b == opponentMove || b == replyMove)
+                if (!b.Enabled || b == selectedMove)
                 {
                     continue;
                 }
 
-                int num = int.Parse(b.Text);
-                if (ValidMove(num))
+                if (ValidMove(int.Parse(b.Text)))
                 {
                     previousnum = originalPrevious;
                     return false;
