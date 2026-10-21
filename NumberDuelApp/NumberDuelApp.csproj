@@ -6,12 +6,6 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>Number Duel</AssemblyName>
-    <ApplicationIcon>Numbers512_44201.ico</ApplicationIcon>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="Numbers512_44201.ico" />
-  </ItemGroup>
 
 </Project>

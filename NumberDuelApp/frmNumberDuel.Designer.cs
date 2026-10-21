@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmNumberDuel));
             tblMain = new TableLayoutPanel();
             lblRule = new Label();
             lblNumPicked = new Label();
@@ -351,9 +350,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(tblMain);
-            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "frmNumberDuel";
-            Text = "Number Duel";
+            Text = "frmNumberDuel";
             tblMain.ResumeLayout(false);
             pnlPlayerOpt.ResumeLayout(false);
             pnlPlayerOpt.PerformLayout();
