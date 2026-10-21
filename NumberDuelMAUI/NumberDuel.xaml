@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NumberDuelMAUI.NumberDuel">
+    <ContentPage.Resources>
+        <Style TargetType="Label" x:Key="Label">
+            <Setter Property="BackgroundColor" Value="AliceBlue"/>
+            <Setter Property="HeightRequest" Value="100"/>
+            <Setter Property="WidthRequest" Value="200"/>
+
+        </Style>
+
+        <Style TargetType="Border" x:Key="LabelBorder">
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="End"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="NumButtons">
+            <Setter Property="BackgroundColor" Value="MediumSpringGreen"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="HeightRequest" Value="75"/>
+            <Setter Property="WidthRequest" Value="120"/>
+            <Setter Property="CornerRadius" Value="-30"/>
+        </Style>
+
+        <Style TargetType="Border" x:Key="NumBorder">
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*,*,3*" Margin="10">
+                <Border Stroke="Black" StrokeThickness="3" Padding="3" HorizontalOptions="Start" Margin="10">
+                    <Button x:Name="btnStart" Grid.Column="1" Grid.Row="0" Text="Start"
+                        BackgroundColor="Black" TextColor="White" HeightRequest="75" WidthRequest="180" FontSize="30"/>
+                </Border>
+
+                <RadioButton x:Name="rbn2Player" Content="2 Player" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Start"/>
+                <RadioButton x:Name="rbnCompPlay" Content="Play Against Computer" Grid.Column="2" Grid.Row="0" VerticalOptions="Start"/>
+
+                <Border Style="{StaticResource Key=LabelBorder}" Grid.Column="0" Grid.Row="2">
+                    <Label x:Name="lblGameStat" Style="{StaticResource Key=Label}"  Grid.Column="0" Grid.Row="2"/>
+                </Border>
+
+                <Border Style="{StaticResource Key=LabelBorder}" Grid.Column="1" Grid.Row="2">
+                    <Label x:Name="lblNumPicked" Style="{StaticResource Key=Label}" Grid.Column="1" Grid.Row="2"/>
+                </Border>
+
+                <Border Style="{StaticResource Key=LabelBorder}" Grid.Column="2" Grid.Row="2">
+                    <Label x:Name="lblRule" Style="{StaticResource Key=Label}"
+                       Text="All numbers picked must be either a multiple or a factor of the number picked previously" 
+                       VerticalTextAlignment="Center" Grid.Column="2" Grid.Row="2" HorizontalTextAlignment="Center"/>
+                </Border>
+                <AbsoluteLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center">
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="75,50">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="1" AbsoluteLayout.LayoutBounds="75,50"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="200,200">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="2" AbsoluteLayout.LayoutBounds="200,200"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="30,350">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="3" AbsoluteLayout.LayoutBounds="30,350"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="150,500">
+                    <Button Style="{StaticResource Key=NumButtons}" Text="4" AbsoluteLayout.LayoutBounds="150,500"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="400,50">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="5" AbsoluteLayout.LayoutBounds="400,50"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="350,375">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="6" AbsoluteLayout.LayoutBounds="350,375"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="450,550">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="7" AbsoluteLayout.LayoutBounds="450,550"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="500,200">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="8" AbsoluteLayout.LayoutBounds="500,200"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="600,425">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="9" AbsoluteLayout.LayoutBounds="600,425"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="675,50">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="10" AbsoluteLayout.LayoutBounds="675,50"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="750,300">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="11" AbsoluteLayout.LayoutBounds="750,300"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="815,550">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="12" AbsoluteLayout.LayoutBounds="815,550"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="940,120">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="13" AbsoluteLayout.LayoutBounds="940,120"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="950,400">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="14" AbsoluteLayout.LayoutBounds="950,400"/>
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="1120,250">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="15" AbsoluteLayout.LayoutBounds="1120,250"/>
+
+                    </Border>
+
+                    <Border Style="{StaticResource Key=NumBorder}" AbsoluteLayout.LayoutBounds="1100,525">
+                        <Button Style="{StaticResource Key=NumButtons}" Text="16" AbsoluteLayout.LayoutBounds="1100,525"/>
+                    </Border>
+
+                </AbsoluteLayout>
+
+
+
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
