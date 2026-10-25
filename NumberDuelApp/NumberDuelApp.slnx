@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../NumberDuelMAUI/NumberDuelMAUI.csproj" Id="09b045a6-43df-4290-94c1-a5bb5b9930d8" />
   <Project Path="NumberDuelApp.csproj" />
 </Solution>
