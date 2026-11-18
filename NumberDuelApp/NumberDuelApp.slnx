@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="../NumberDuelMAUI/NumberDuelMAUI.csproj" Id="09b045a6-43df-4290-94c1-a5bb5b9930d8" />
+  <Project Path="../NumberDuelSystem/NumberDuelSystem.csproj" Id="5b0b2999-f7be-421e-baf9-330b7aedd4bc" />
+  <Project Path="../NumberDuelTest/NumberDuelTest.csproj" Id="9e2d1391-a05c-41ca-9a6e-25c1b91381d1" />
   <Project Path="NumberDuelApp.csproj" />
 </Solution>
