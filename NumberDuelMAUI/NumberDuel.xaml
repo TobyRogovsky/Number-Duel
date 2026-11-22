@@ -35,14 +35,22 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*,*,3*" Margin="10">
-                <Border Stroke="Black" StrokeThickness="3" Padding="3" HorizontalOptions="Start" Margin="10">
-                    <Button x:Name="btnStart" Grid.Column="1" Grid.Row="0" Text="Start" Clicked="StartBtn_Clicked"
+            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*,3*" Margin="10">
+
+                <VerticalStackLayout Grid.Column="0" Grid.Row="0" Margin="4">
+                    <Label Text="3 simultaneous games." />
+                    <Label Text="Choose which one to play" />
+                    <RadioButton x:Name="Game1Rb" Content="{Binding GameStatusDescription}" CheckedChanged="Game_CheckedChanged" IsChecked="True"/>
+                    <RadioButton x:Name="Game2Rb" Content="{Binding GameStatusDescription}" CheckedChanged="Game_CheckedChanged"/>
+                    <RadioButton x:Name="Game3Rb" Content="{Binding GameStatusDescription}" CheckedChanged="Game_CheckedChanged"/>
+                </VerticalStackLayout>
+                <Border Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Button x:Name="btnStart" Grid.Column="2" Grid.Row="2" Text="Start" Clicked="StartBtn_Clicked"
                         BackgroundColor="Black" TextColor="White" HeightRequest="75" WidthRequest="180" FontSize="30"/>
                 </Border>
 
-                <RadioButton x:Name="rbn2Player" Content="2 Player" Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Start"/>
-                <RadioButton x:Name="rbnCompPlay" Content="Play Against Computer" Grid.Column="2" Grid.Row="0" VerticalOptions="Start"/>
+                <RadioButton x:Name="rbn2Player" Content="2 Player" Grid.Column="1" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Start" IsChecked="True"/>
+                <RadioButton x:Name="rbnCompPlay" Content="Play Against Computer" Grid.Column="2" Grid.Row="1" VerticalOptions="Start"/>
 
                 <Border Style="{StaticResource Key=LabelBorder}" Grid.Column="0" Grid.Row="2">
                     <Label x:Name="lblGameStat" Style="{StaticResource Key=Label}"  Grid.Column="0" Grid.Row="2" Text="{Binding GameStatusDescription}"/>
@@ -125,6 +133,7 @@
                     </Border>
 
                 </AbsoluteLayout>
+                <Label x:Name="ScoreLbl" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
 
 
 
