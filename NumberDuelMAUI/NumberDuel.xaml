@@ -133,6 +133,7 @@
                     </Border>
 
                 </AbsoluteLayout>
+                <Label x:Name="ScoreLbl" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
 
 
 
