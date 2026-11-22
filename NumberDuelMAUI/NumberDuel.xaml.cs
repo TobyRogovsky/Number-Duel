@@ -3,22 +3,38 @@ namespace NumberDuelMAUI
 {
     public partial class NumberDuel : ContentPage
     {
-        Game game = new();
+        Game activegame;
+        List<Game> lstgame = new() { new Game(), new Game(), new Game() };
         List<Button> lstbuttons;
         public NumberDuel()
         {
             InitializeComponent();
-            this.BindingContext = game;
+            lstgame.ForEach(g => g.ScoreChanged += G_ScoreChanged);
+            Game1Rb.BindingContext = lstgame[0];
+            Game2Rb.BindingContext = lstgame[1];
+            Game3Rb.BindingContext = lstgame[2];
+            activegame = lstgame[0];
+            this.BindingContext = activegame;
             lstbuttons = new() { btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16 };
         }
         private void StartBtn_Clicked(object sender, EventArgs e)
         {
-            game.StartGame(rbnCompPlay.IsChecked);
+            activegame.StartGame(rbnCompPlay.IsChecked);
         }
 
         private void btn_Clicked(object sender, EventArgs e)
         {
-            game.HandleMove(game.Btns[lstbuttons.IndexOf((Button)sender)]);
+            activegame.HandleMove(activegame.Btns[lstbuttons.IndexOf((Button)sender)]);
+        }
+
+        private void Game_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            RadioButton rb = (RadioButton)sender;
+            if (rb.IsChecked && rb.BindingContext != null)
+            {
+                activegame = (Game)rb.BindingContext;
+                this.BindingContext = activegame;
+            }
         }
     }
 }

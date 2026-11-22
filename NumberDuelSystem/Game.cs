@@ -6,15 +6,22 @@ namespace NumberDuelSystem
     public class Game : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? ScoreChanged;
         public enum GameStatusEnum { NotStarted, Playing, Winner }
         public enum TurnEnum { Player1, Player2, None }
         public List<Btns> Btns { get; private set; } = new();
         GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
         TurnEnum _currentturn = TurnEnum.None;
         int _previousnum = 0;
+        private static int score1wins;
+        private static int score2wins;
+        private static int scoreties;
+        private static int numgames;
 
         public Game()
         {
+            numgames++;
+            this.GameName = "Game " + numgames;
             for (int num = 1; num <= 16; num++)
             {
                 Btns.Add(new Btns { Num = num });
@@ -38,7 +45,18 @@ namespace NumberDuelSystem
                 this.InvokePropertyChanged("GameStatusDescription");
             }
         }
-        public string GameStatusDescription { get => $"{this.GameStatus.ToString()} Current Turn: {this.CurrentTurn.ToString()}"; }
+        public string GameStatusDescription
+        {
+            get
+            {
+                string s = $"{this.GameName}, {this.GameMode} : ";
+
+                return s;
+            }
+
+        }
+
+
         public TurnEnum Winner { get; private set; } = TurnEnum.None;
         public int PreviousNum
         {
@@ -63,6 +81,8 @@ namespace NumberDuelSystem
             }
         }
 
+        public string GameMode { get => this.PlayAgainstComputer ? "Play the Computer" : "2 Player"; }
+        public string GameName { get; private set; }
         public bool PlayAgainstComputer { get; set; }
         public System.Drawing.Color StartColor { get; set; } = System.Drawing.Color.MediumSpringGreen;
         public System.Drawing.Color UsedColor { get; set; } = System.Drawing.Color.Gray;
