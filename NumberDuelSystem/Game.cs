@@ -34,6 +34,7 @@ namespace NumberDuelSystem
                 this.InvokePropertyChanged();
                 this.InvokePropertyChanged("GameStatusDescription");
                 this.InvokePropertyChanged("StartButtonText");
+                this.InvokePropertyChanged("NumberPickedDescription");
             }
         }
         public TurnEnum CurrentTurn
@@ -54,16 +55,16 @@ namespace NumberDuelSystem
                 switch (this.GameStatus)
                 {
                     case GameStatusEnum.NotStarted:
+                        s += Environment.NewLine;
                         s = s + "Click Start";
                         break;
 
                     case GameStatusEnum.Playing:
-                        s = s + " Current Turn " + this.CurrentTurn;
+                        s = s += " Current Turn " + this.CurrentTurn;
                         break;
                     case GameStatusEnum.Winner:
-                        s = s + this.GameStatus + " is " + this.CurrentTurn;
+                        s += "Game over";
                         break;
-                    
                 }
                 return s;
             }
@@ -84,8 +85,23 @@ namespace NumberDuelSystem
 
         public string NumberPickedDescription
         {
+
             get
             {
+                if (GameStatus == GameStatusEnum.Winner)
+                {
+                    if (Winner == TurnEnum.Player1)
+                    {
+                        return "Player 1 wins!";
+                    }
+
+                    if (PlayAgainstComputer)
+                    {
+                        return "Computer wins!";
+                    }
+
+                    return "Player 2 wins!";
+                }
                 if (PreviousNum == 0)
                 {
                     return "";
@@ -137,6 +153,7 @@ namespace NumberDuelSystem
 
         public void StopGame()
         {
+            this.PreviousNum = 0;
             this.GameStatus = GameStatusEnum.NotStarted;
             ClearButtons();
         }
@@ -226,13 +243,10 @@ namespace NumberDuelSystem
             }
             Winner = CurrentTurn;
             GameStatus = GameStatusEnum.Winner;
-            Btns.ForEach(b =>
+            foreach (Btns b in Btns)
             {
-                if (!b.Enabled)
-                {
-                    b.BackColor = WinColor;
-                }
-            });
+                b.BackColor = WinColor;
+            }
             if (this.CurrentTurn == TurnEnum.Player1)
             {
                 score1wins++;
