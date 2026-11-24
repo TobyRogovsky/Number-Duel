@@ -45,8 +45,8 @@
                     <RadioButton x:Name="Game3Rb" Content="{Binding GameStatusDescription}" CheckedChanged="Game_CheckedChanged"/>
                 </VerticalStackLayout>
                 <Border Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Button x:Name="btnStart" Grid.Column="2" Grid.Row="2" Text="Start" Clicked="StartBtn_Clicked"
-                        BackgroundColor="Black" TextColor="White" HeightRequest="75" WidthRequest="180" FontSize="30"/>
+                    <Button x:Name="btnStart" Grid.Column="2" Grid.Row="2" Text="{Binding StartButtonText}" Clicked="StartBtn_Clicked"
+                        BackgroundColor="Black" TextColor="White" HeightRequest="80" WidthRequest="190" FontSize="30"/>
                 </Border>
 
                 <RadioButton x:Name="rbn2Player" Content="2 Player" Grid.Column="1" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Start" IsChecked="True"/>
@@ -133,7 +133,7 @@
                     </Border>
 
                 </AbsoluteLayout>
-                <Label x:Name="ScoreLbl" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalTextAlignment="Center"/>
+                <Label x:Name="ScoreLbl" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3" HorizontalTextAlignment="Center" FontSize="15"/>
 
 
 
